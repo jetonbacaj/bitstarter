@@ -28,6 +28,7 @@ var util = require('util');
 var restler = require('restler');
 var HTMLFILE_DEFAULT = "index.html";
 var CHECKSFILE_DEFAULT = "checks.json";
+var URL_DEFAULT = "http://infinite-chamber-7709.herokuapp.com";
 
 var assertFileExists = function(infile) {
     var instr = infile.toString();
@@ -94,11 +95,7 @@ if(require.main == module) {
 	.option('-u, --url <url>', 'Link to the URL', clone(assertURLExists), URL_DEFAULT)
         .parse(process.argv);
     var checkJson = 
-	if(program.url){
-	    return checkURL(program.url, program.checks);
-	} else {
-  	    return checkHtmlFile(program.file, program.checks);
-	}
+	program.url? checkURL(program.url, program.checks) : checkHtmlFile(program.file, program.checks);
     
     var outJson = JSON.stringify(checkJson, null, 4);
     console.log(outJson);
